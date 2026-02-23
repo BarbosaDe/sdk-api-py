@@ -16,11 +16,13 @@ dependencies = [
     "typing-extensions~=4.15.0",
 ]
 
+[project.optional-dependencies]
+pydantic = [
+    "pydantic~=2.12.5",
+]
+
 [tool.poetry]
 packages = [{ include = "squarecloud" }]
-
-[tool.poetry.extras]
-pydantic = ["pydantic"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
