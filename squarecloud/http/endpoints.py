@@ -15,6 +15,14 @@ class Endpoint:
         'STOP': {'METHOD': 'POST', 'PATH': '/apps/{app_id}/stop'},
         'RESTART': {'METHOD': 'POST', 'PATH': '/apps/{app_id}/restart'},
         'SNAPSHOT': {'METHOD': 'POST', 'PATH': '/apps/{app_id}/snapshots'},
+        'RESTORE_APPLICATIONS_SNAPSHOT': {
+            'METHOD': 'POST',
+            'PATH': '/apps/{app_id}/snapshots/restore',
+        },
+        'RESTORE_DATABASE_SNAPSHOT': {
+            'METHOD': 'POST',
+            'PATH': '/databases/{app_id}/snapshots/restore',
+        },
         'COMMIT': {'METHOD': 'POST', 'PATH': '/apps/{app_id}/commit'},
         'DELETE_APP': {'METHOD': 'DELETE', 'PATH': '/apps/{app_id}'},
         'UPLOAD_APP': {'METHOD': 'POST', 'PATH': '/apps'},
@@ -315,6 +323,22 @@ class Endpoint:
         /apps/{app_id}/envs DELETE endpoint.
         """
         return cls('ENVS_DELETE')
+    
+    @classmethod
+    def restore_applications_snapshot(cls) -> Endpoint: 
+        """
+        Returns an Endpoint object that represents the
+        /apps/{app_id}/snapshots/restore endpoint.
+        """
+        return cls('RESTORE_APPLICATIONS_SNAPSHOT')
+    
+    @classmethod
+    def restore_database_snapshot(cls) -> Endpoint:
+        """
+        Returns an Endpoint object that represents the
+        /databases/{database_id}/snapshots/restore endpoint.
+        """
+        return cls('RESTORE_DATABASE_SNAPSHOT')
 
 
 # pylint: disable=too-few-public-methods

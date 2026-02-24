@@ -327,6 +327,33 @@ class Client(RequestListenerManager):
         return Snapshot(**payload)
 
     @validate
+    async def restore_snapshot(self, application_type: Literal["app", "database"], app_id: str, snapshot_id:str, version_id:str, **_kwargs) -> Response:
+        """
+        The restore_snapshot method is used to restore a snapshot of an application.
+
+        :param application_type: Specify the type of the application, it can be "app" or "database"
+        :param app_id: Specify the application id
+        :param snapshot_id: Specify the snapshot id
+        :param version_id: Specify the snapshot version id
+
+        :return: A Response object
+        :rtype: Response
+
+        :raises NotFoundError: Raised when the request status code is 404
+        :raises BadRequestError: Raised when the request status code is 400
+        :raises AuthenticationFailure: Raised when the request status
+                code is 401
+        :raises TooManyRequestsError: Raised when the request status
+                code is 429
+        """
+
+        if application_type not in ["app", "database"]:
+            raise ValueError("application_type must be 'app' or 'database'")
+        
+
+        return await self._http.restore_snapshot(app_type=application_type, app_id=app_id, snapshot_id=snapshot_id, version_id=version_id)
+
+    @validate
     @_notify_listener(Endpoint.delete_app())
     async def delete_app(self, app_id: str, **_kwargs) -> Response:
         """

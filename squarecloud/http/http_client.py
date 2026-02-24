@@ -366,7 +366,34 @@ class HTTPClient:
         route: Router = Router(Endpoint.snapshot(), app_id=app_id)
         response: Response = await self.request(route)
         return response
+    
+    async def restore_snapshot(self, app_type: Literal["app", "database"], app_id: str, snapshot_id: str, version_id: str) -> Response:
+        """
+        Restore a snapshot of an application
 
+        :param app_type: The application type
+        :param app_id: The application id
+        :param snapshot_id: The snapshot id
+        :param version_id: The version id
+        :return: A Response object 
+        :rtype: Response
+
+        :raises NotFoundError: Raised when the request status code is 404
+        :raises BadRequestError: Raised when the request status code is 400
+        :raises AuthenticationFailure: Raised when the request status
+                code is 401
+        :raises TooManyRequestsError: Raised when the request status
+                code is 429
+        """
+
+        endpoint = Endpoint.restore_database_snapshot() if app_type == "database" else Endpoint.restore_applications_snapshot()
+
+        route: Router = Router(endpoint, app_id=app_id)
+        response: Response = await self.request(route, json={'snapshotId': snapshot_id, 'versionId': version_id})
+
+        return response
+
+        
     async def delete_application(self, app_id: str) -> Response:
         """
         Delete a hosted application
